@@ -1,0 +1,6 @@
+/.idea
+/*.iml
+/oauth-sdk-qq/*.iml
+/oauth-app-web/target
+/oauth-sdk-qq/target
+/oauth-app-web/oauth-app-web.iml
