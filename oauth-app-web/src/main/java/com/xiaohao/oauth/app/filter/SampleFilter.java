@@ -23,7 +23,10 @@ public class SampleFilter implements Filter {
 
         HttpServletRequest request =(HttpServletRequest)servletRequest;
         int index =request.getRequestURL().toString().indexOf("auth.do");
-        if(index>0){
+        int windex =request.getRequestURL().toString().indexOf("index");
+        int jsindex =request.getRequestURL().toString().indexOf(".js");
+        int showindex =request.getRequestURL().toString().indexOf("showResult.do");
+        if(index>0||windex>0||jsindex>0||showindex>0){
             filterChain.doFilter(servletRequest,servletResponse);
         }else{
             OAuthV2 token =(OAuthV2)request.getSession().getAttribute("oauth");
