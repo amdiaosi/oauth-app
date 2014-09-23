@@ -34,4 +34,8 @@
         <servlet-name>showResultServlet</servlet-name>
         <url-pattern>/showResult.do</url-pattern>
     </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
