@@ -1,19 +1,16 @@
 package com.xiaohao.oauth.app.servlet;
 
 
+import com.tencent.weibo.api.TAPI;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
-import com.xiaohao.oauth.app.helper.OauthHelper;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-
+import com.tencent.weibo.utils.QHttpClient;
+import com.xiaohao.oauth.app.Constant;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by xiaohao on 2014/9/15.
@@ -22,50 +19,38 @@ public class AuthOkServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         OAuthV2 oAuth =new OAuthV2();
-        String respBody =req.getQueryString();
-        OAuthV2Client.parseAuthorization(respBody,oAuth);
 
-       // OAuthV2Client.parseAccessTokenAndOpenId(responseData, oAuth)
+        //自定制http连接管理器
+        QHttpClient qHttpClient = new QHttpClient(2, 2, 5000, 5000, null, null);
+        OAuthV2Client.setQHttpClient(qHttpClient);
+        String queryString =req.getQueryString();
+        OAuthV2Client.parseAuthorization(queryString, oAuth);
 
-        oAuth.setOpenid("");
-        oAuth.setAuthorizeCode("");
-        oAuth.setOpenkey("");
+        //取得queryString 然后解析queryString给OAuthV2对象赋值
 
-//        System.out.println("AuthOkServlet");
-//
-//        String code = req.getParameter(Constants.auth_back_code_param);
-//
-//        String openid = req.getParameter(Constants.auth_back_openid_param);
-//
-//        String openKey = req.getParameter(Constants.auth_back_openkey_param);
-//
-//        System.out.println("code :" + code);
-//        System.out.println("openid :" + openid);
-//        System.out.println("openkey :" + openKey);
-//
-//        req.setAttribute("code", code);
-//        req.setAttribute("code", code);
-//        req.setAttribute("code", code);
-//
-//        //取得code
-//
-//        //下面使用httpClient来获取accessToken
-//
-//
-//        HttpClient httpClient = new HttpClient();
-//        httpClient.getParams().setContentCharset("UTF-8");
-//        HttpMethod method = new PostMethod(Constants.generateAccessTokenUrl(code));
-//        int status = httpClient.executeMethod(method);
-//        if (status == 200) {
-//            String body = method.getResponseBodyAsString();
-//            Map<String, String> map = OauthHelper.parseAccessToken(body);
-//            if (map != null && map.get("accessToken") != null) {
-//                req.getSession().setAttribute("token", map.get("accessToken"));
-//                req.getSession().setAttribute("authMap",map);
-//                resp.sendRedirect("invalidSession.jsp");
-//            }
-//        }
+        // //换取access token
+        oAuth.setGrantType("authorize_code");
+        try {
+            OAuthV2Client.accessToken(oAuth);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        TAPI tAPI = new TAPI(oAuth.getOauthVersion());//根据oAuth配置对应的连接管理器
+        //取得返回结果
+        String response = null;
+        try{
+            tAPI.add(oAuth, Constant.format, "测试发表文字微博" + Constant.content, Constant.clientip, Constant.jing, Constant.wei, Constant.syncflag);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println("send content:"+response);
+        qHttpClient.shutdownConnection();
+
+        req.getSession().setAttribute("token", "ok");
 
     }
 

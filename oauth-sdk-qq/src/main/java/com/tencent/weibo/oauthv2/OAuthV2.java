@@ -16,9 +16,9 @@ import com.tencent.weibo.constants.OAuthConstants;
 public class OAuthV2 extends OAuth implements Serializable{
     
     private static final long serialVersionUID = -4667312552797390709L;
-    private String redirectUri = "null";// 授权回调地址
-    private String clientId = "";// 申请应用时分配的app_key
-    private String clientSecret="";//申请应用时分配到的app_secret
+    private String redirectUri = "http://localhost:9597/oauth-app-web/auth.do";// 授权回调地址
+    private String clientId = "801064960";// 申请应用时分配的app_key
+    private String clientSecret="1f202127c7d4d51e7897ea88d3cdbd22";//申请应用时分配到的app_secret
     private String responseType = "code";// code、token，默认为code
     private String type="default";//显示授权页的类型，默认授权页为pc授权页
     private String authorizeCode= null;//用来换取accessToken的授权码
