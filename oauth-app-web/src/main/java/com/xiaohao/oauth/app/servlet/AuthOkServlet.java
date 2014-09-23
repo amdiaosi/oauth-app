@@ -1,11 +1,8 @@
 package com.xiaohao.oauth.app.servlet;
 
-
-import com.tencent.weibo.api.TAPI;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import com.tencent.weibo.utils.QHttpClient;
-import com.xiaohao.oauth.app.Constant;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,20 +34,9 @@ public class AuthOkServlet extends HttpServlet {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-
-        TAPI tAPI = new TAPI(oAuth.getOauthVersion());//根据oAuth配置对应的连接管理器
-        //取得返回结果
-        String response = null;
-        try{
-            tAPI.add(oAuth, Constant.format, "测试发表文字微博" + Constant.content, Constant.clientip, Constant.jing, Constant.wei, Constant.syncflag);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        System.out.println("send content:"+response);
         qHttpClient.shutdownConnection();
-
-        req.getSession().setAttribute("token", "ok");
+        req.getSession().setAttribute("oauth", oAuth);
+        req.getRequestDispatcher("/invalidSession.jsp").forward(req,resp);
 
     }
 

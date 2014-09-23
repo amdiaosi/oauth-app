@@ -26,4 +26,12 @@
         <url-pattern>/auth.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>showResultServlet</servlet-name>
+        <servlet-class>com.xiaohao.oauth.app.servlet.ShowResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showResultServlet</servlet-name>
+        <url-pattern>/showResult.do</url-pattern>
+    </servlet-mapping>
 </web-app>

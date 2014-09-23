@@ -2,7 +2,6 @@ package com.xiaohao.oauth.app.filter;
 
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +26,8 @@ public class SampleFilter implements Filter {
         if(index>0){
             filterChain.doFilter(servletRequest,servletResponse);
         }else{
-            String token =(String)request.getSession().getAttribute("token");
-            if(token!=null&&!token.equals("")){
+            OAuthV2 token =(OAuthV2)request.getSession().getAttribute("oauth");
+            if(token!=null){
                 filterChain.doFilter(servletRequest,servletResponse);
             }else {
                 HttpServletResponse response =(HttpServletResponse) servletResponse;

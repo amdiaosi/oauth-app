@@ -11,15 +11,35 @@
 <html>
 <head>
     <title></title>
+    <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
 </head>
 <body>
-<h1>已经成功完成微博认证</h1>
-<%
-   Map<String,String> map =(HashMap) session.getAttribute("authMap");
-   String accessToken =map.get("accessToken");
-   String nick =map.get("nick");
-%>
-access token:<%=accessToken%><br/>
-nick:<%=nick%>
+<h1>测测你上辈子是谁</h1>
+<div id="shareInfo" style="display: none">
+    上辈子你是？？？？超级计算机已经计算出来了你是谁?
+</div>
+<div id="startInfo">
+    点击按钮开始测试
+</div>
+<input id="start" type="button" value="开始测试"/>
+<input id="share" style="display: none" value="分享到微博查看结果" type="button"/>
 </body>
+<script>
+    $(function(){
+        $("#start").click(function(){
+            var t =setTimeout(function(){
+                $("#start").hide()
+                $("#startInfo").hide();
+                $("#share").show();
+                $("#shareInfo").show();
+                clearTimeout(t);
+            },5000)
+        });
+        $("#share").click(function(){
+
+            window.location.href="showResult.do";
+
+        });
+    });
+</script>
 </html>
