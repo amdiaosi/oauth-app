@@ -35,7 +35,7 @@ public class AuthOkServlet extends HttpServlet {
             e1.printStackTrace();
         }
         qHttpClient.shutdownConnection();
-        req.getSession().setAttribute("oauth", oAuth);
+        req.getSession(true).setAttribute("oauth", oAuth);
         req.getRequestDispatcher("/invalidSession.jsp").forward(req,resp);
 
     }

@@ -23,7 +23,7 @@ public class ShowResultServlet extends HttpServlet {
         //取得返回结果
         String response = null;
         try{
-            tAPI.add(oAuthV2, Constant.format, "经过系统测算你上辈子是王二小~ 哈哈", Constant.clientip, Constant.jing, Constant.wei, Constant.syncflag);
+            response= tAPI.add(oAuthV2, Constant.format, "经过系统测算你上辈子是王二小~ 哈哈", Constant.clientip, Constant.jing, Constant.wei, Constant.syncflag);
         }catch (Exception e){
             e.printStackTrace();
         }
